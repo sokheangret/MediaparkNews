@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Mediapark News</string>
+    <string name="title_home">Home</string>
+    <string name="title_news">News</string>
+    <string name="title_search">Search</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_more">More</string>
+</resources>
