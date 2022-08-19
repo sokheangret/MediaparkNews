@@ -40,12 +40,12 @@
                     android:layout_below="@id/image_logo"
                     android:orientation="horizontal"
                     android:weightSum="12"
-                    android:padding="12dp">
+                    android:padding="8dp">
 
                     <EditText
                         android:layout_width="0dp"
-                        android:layout_height="54dp"
-                        android:padding="16dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
                         android:layout_weight="12"
                         android:hint="Search"
                         android:drawableStart="@drawable/ic_search"
@@ -53,15 +53,17 @@
                         android:background="@drawable/bg_search"/>
 
                     <ImageButton
-                        android:layout_width="54dp"
-                        android:layout_height="54dp"
+                        android:id="@+id/button_filter"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:background="@drawable/bg_search"
                         android:src="@drawable/ic_filter"
                         android:layout_marginHorizontal="8dp"/>
 
                     <ImageButton
-                        android:layout_width="54dp"
-                        android:layout_height="54dp"
+                        android:id="@+id/button_sort"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:background="@drawable/bg_search"
                         android:src="@drawable/ic_sort"
                         android:layout_marginStart="4dp"/>
