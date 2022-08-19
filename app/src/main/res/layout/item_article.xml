@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="article"
+            type="com.sokheang.mediaparknews.models.ArticleListResponse.Article" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/image_article"
+            android:layout_width="124dp"
+            android:layout_height="108dp"
+            android:scaleType="fitXY"
+            android:loadImage="@{article.image}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher_background"
+            tools:ignore="ImageContrastCheck"
+            android:contentDescription="Article image" />
+
+        <TextView
+            android:id="@+id/text_article_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{article.title}"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_article"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Article Title" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{article.description}"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_article"
+            app:layout_constraintEnd_toEndOf="@+id/text_article_title"
+            app:layout_constraintStart_toStartOf="@+id/text_article_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_article_title"
+            tools:text="This is text testing testing testing testing testing" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
