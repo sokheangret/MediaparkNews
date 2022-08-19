@@ -16,13 +16,8 @@ private var _binding: FragmentNewsBinding? = null
   // onDestroyView.
   private val binding get() = _binding!!
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View {
-    val newsViewModel =
-            ViewModelProvider(this).get(NewsViewModel::class.java)
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    val newsViewModel = ViewModelProvider(this)[NewsViewModel::class.java]
 
     _binding = FragmentNewsBinding.inflate(inflater, container, false)
     val root: View = binding.root
@@ -33,6 +28,8 @@ private var _binding: FragmentNewsBinding? = null
     }
     return root
   }
+
+
 
 override fun onDestroyView() {
         super.onDestroyView()
