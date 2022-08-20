@@ -20,22 +20,29 @@ class ApiRepository @Inject constructor() {
     lateinit var apiService: ApiService
     private val disposable = CompositeDisposable()
 
-    fun getArticleList(articleType: String): LiveData<ArticleListResponse> {
+    fun getArticleList(articleType: String, querySearch: String? = null,
+                       fromPublishDate: String? = null, toPublishDate: String? = null,
+                       searchIn: String? = null, sortBy: String? = null,
+    ): LiveData<ArticleListResponse> {
         val data = MutableLiveData<ArticleListResponse>()
 
         disposable.add(
-            apiService.getArticleList(articleType, "05c9aaed2df1e4e915813bbc95f6a6f0")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<Response<ArticleListResponse>>() {
-                    override fun onSuccess(response: Response<ArticleListResponse>) {
-                        data.value = response.body()
-                    }
+            apiService.getArticleList(
+                articleType, querySearch = querySearch,
+                fromPublishDate = fromPublishDate, toPublishDate = toPublishDate,
+                searchIn = searchIn, sortBy = sortBy,
+                token = "05c9aaed2df1e4e915813bbc95f6a6f0")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<Response<ArticleListResponse>>() {
+                        override fun onSuccess(response: Response<ArticleListResponse>) {
+                            data.value = response.body()
+                        }
 
-                    override fun onError(e: Throwable) {
-                        e.printStackTrace()
-                    }
-                })
+                        override fun onError(e: Throwable) {
+                            e.printStackTrace()
+                        }
+                    })
         )
         return data
     }

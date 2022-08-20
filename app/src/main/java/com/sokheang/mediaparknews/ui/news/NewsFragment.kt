@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class NewsFragment : Fragment() {
 
-private var _binding: FragmentNewsBinding? = null
+    private var _binding: FragmentNewsBinding? = null
 
     @Inject
     lateinit var viewModel: NewsViewModel
