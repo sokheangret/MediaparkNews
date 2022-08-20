@@ -12,10 +12,9 @@ class NewsViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var apiRepository: ApiRepository
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
+    val isLoading = MutableLiveData(true)
+    val isZeroItemsLoaded = MutableLiveData(false)
+    val isLoadFail = MutableLiveData(false)
 
     fun getArticleList(articleType: String): LiveData<ArticleListResponse> {
         return apiRepository.getArticleList(articleType)

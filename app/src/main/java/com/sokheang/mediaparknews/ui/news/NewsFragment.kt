@@ -39,12 +39,11 @@ private var _binding: FragmentNewsBinding? = null
         if(_binding == null) {
             _binding = FragmentNewsBinding.inflate(inflater, container, false)
 
-            val textView: TextView = binding.textDashboard
-            viewModel.text.observe(viewLifecycleOwner) {
-                textView.text = it
-            }
-
             articleListAdapter = ArticleListAdapter(articleList)
+
+            binding.lifecycleOwner = viewLifecycleOwner
+            binding.viewModel = viewModel
+
             binding.recyclerViewArticle.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 itemAnimator = DefaultItemAnimator()
@@ -52,8 +51,14 @@ private var _binding: FragmentNewsBinding? = null
             }
 
             viewModel.getArticleList("top-headlines").observe(viewLifecycleOwner) {
-                articleList.addAll(it.articles)
-                articleListAdapter.notifyDataSetChanged()
+                viewModel.isLoading.value = false
+                if(it != null) {
+                    viewModel.isZeroItemsLoaded.value = articleList.isNotEmpty()
+                    articleList.addAll(it.articles)
+                    articleListAdapter.notifyDataSetChanged()
+                } else {
+                    viewModel.isLoadFail.value = true
+                }
             }
         }
         return binding.root
