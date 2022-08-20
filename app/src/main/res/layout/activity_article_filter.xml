@@ -57,9 +57,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:hint="yyyy-mm-dd"
-            android:text="@{viewModel.fromDate}"
+            android:text="@={viewModel.fromDate}"
             android:focusable="false"
-            android:drawableEnd="@drawable/ic_filter"
+            android:drawableEnd="@drawable/ic_calendar"
             android:inputType="date"
             android:importantForAutofill="no" />
 
@@ -78,9 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:hint="yyyy-mm-dd"
-            android:text="@{viewModel.toDate}"
+            android:text="@={viewModel.toDate}"
             android:focusable="false"
-            android:drawableEnd="@drawable/ic_filter"
+            android:drawableEnd="@drawable/ic_calendar"
             android:inputType="date"
             android:importantForAutofill="no" />
 

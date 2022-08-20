@@ -51,15 +51,28 @@ class ArticleFilterActivity : AppCompatActivity() {
             showDatePickerDialog(binding.editToDate)
         }
 
+        binding.toolbar.textClear.setOnClickListener {
+            clearFilter()
+        }
+
+        binding.toolbar.buttonBack.setOnClickListener {
+            onBackPressed()
+        }
+
         binding.buttonApplyFilter.setOnClickListener {
             val intent = Intent().apply {
-                putExtra(Constants.IntentConstants.FROM_PUBLISH_DATE, binding.editFromDate.text.toString())
-                putExtra(Constants.IntentConstants.TO_PUBLISH_DATE, binding.editToDate.text.toString())
+                putExtra(Constants.IntentConstants.FROM_PUBLISH_DATE, viewModel.fromDate.value)
+                putExtra(Constants.IntentConstants.TO_PUBLISH_DATE, viewModel.toDate.value)
                 putExtra(Constants.IntentConstants.SEARCH_IN, viewModel.searchIn.value)
             }
             setResult(RESULT_OK,intent)
             finish()
         }
+    }
+
+    private fun clearFilter() {
+        viewModel.fromDate.value = ""
+        viewModel.toDate.value = ""
     }
 
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

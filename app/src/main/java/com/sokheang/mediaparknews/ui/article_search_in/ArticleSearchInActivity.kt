@@ -29,6 +29,14 @@ class ArticleSearchInActivity : AppCompatActivity() {
 
         searchIn = intent.getStringExtra(Constants.IntentConstants.SEARCH_IN).toString()
 
+        binding.toolbar.textClear.setOnClickListener {
+            clearFilter()
+        }
+
+        binding.toolbar.buttonBack.setOnClickListener {
+            onBackPressed()
+        }
+
         if(searchIn.contains("title")) {
             viewModel.titleCheck.value = true
         }
@@ -67,5 +75,12 @@ class ArticleSearchInActivity : AppCompatActivity() {
             setResult(RESULT_OK,intent)
             finish()
         }
+    }
+
+    private fun clearFilter() {
+        searchList.clear()
+        viewModel.titleCheck.value = false
+        viewModel.descriptionCheck.value = false
+        viewModel.contentCheck.value = false
     }
 }
