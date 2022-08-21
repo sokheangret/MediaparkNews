@@ -20,6 +20,7 @@ import com.sokheang.mediaparknews.models.ArticleListResponse
 import com.sokheang.mediaparknews.ui.article_filter.ArticleFilterActivity
 import com.sokheang.mediaparknews.ui.news.adapter.ArticleListAdapter
 import com.sokheang.mediaparknews.utils.Constants
+import com.sokheang.mediaparknews.utils.views.BottomSheetSortBy
 import javax.inject.Inject
 
 class SearchFragment : Fragment() {
@@ -31,6 +32,8 @@ private var _binding: FragmentSearchBinding? = null
 
     private val binding get() = _binding!!
     private lateinit var articleListAdapter: ArticleListAdapter
+    private lateinit var bottomSheetSortBy: BottomSheetSortBy
+
     private val articleList: ArrayList<ArticleListResponse.Article> = arrayListOf()
 
     var querySearch = "None"
@@ -61,7 +64,18 @@ private var _binding: FragmentSearchBinding? = null
                 resultLauncher.launch(intent)
             }
 
+            bottomSheetSortBy = BottomSheetSortBy(requireContext(), {
+                //On sort by upload date selected
+                sortBy = "publishedAt"
+                searchArticles()
+            },{
+                //On sort by upload relevance selected
+                sortBy = "relevance"
+                searchArticles()
+            })
+
             binding.buttonSort.setOnClickListener {
+                bottomSheetSortBy.show()
             }
 
             articleListAdapter = ArticleListAdapter(articleList)
