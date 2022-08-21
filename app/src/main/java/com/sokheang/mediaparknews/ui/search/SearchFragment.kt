@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -21,7 +23,9 @@ import com.sokheang.mediaparknews.ui.article_filter.ArticleFilterActivity
 import com.sokheang.mediaparknews.ui.news.adapter.ArticleListAdapter
 import com.sokheang.mediaparknews.utils.Constants
 import com.sokheang.mediaparknews.utils.views.BottomSheetSortBy
+import java.util.*
 import javax.inject.Inject
+
 
 class SearchFragment : Fragment() {
 
@@ -85,21 +89,15 @@ private var _binding: FragmentSearchBinding? = null
                 adapter = articleListAdapter
             }
 
-            binding.editTextQuery.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-
-                override fun afterTextChanged(string: Editable?) {
-                }
-
-            })
+            binding.editTextQuery.addTextChangedListener(searchTextWatcher)
     }
     return binding.root
   }
 
     private fun searchArticles() {
+        viewModel.isLoading.value = true
+        viewModel.isLoadFail.value = false
+        viewModel.isZeroItemsLoaded.value = false
         viewModel.getArticleList(
             "search",
             querySearch,
@@ -112,6 +110,7 @@ private var _binding: FragmentSearchBinding? = null
                 viewModel.isLoading.value = false
                 articleList.clear()
                 if (it != null) {
+                    viewModel.isLoadFail.value = false
                     viewModel.isZeroItemsLoaded.value = articleList.isNotEmpty()
                     articleList.addAll(it.articles)
                     articleListAdapter.notifyDataSetChanged()
@@ -132,6 +131,35 @@ private var _binding: FragmentSearchBinding? = null
             searchIn = data.getStringExtra(Constants.IntentConstants.SEARCH_IN).toString()
 
             searchArticles()
+        }
+    }
+
+    private var timer: Timer? = null
+
+    private val searchTextWatcher: TextWatcher = object : TextWatcher {
+        override fun afterTextChanged(arg0: Editable) {
+            // user typed: start the timer
+            timer = Timer()
+            timer!!.schedule(object : TimerTask() {
+                override fun run() {
+                    val handler = Handler(Looper.getMainLooper())
+                    handler.post {
+                        querySearch = arg0.toString().trim()
+                        searchArticles()
+                    }
+                }
+            }, 600) // 600ms delay before the timer executes the „run“ method from TimerTask
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            // nothing to do here
+        }
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            // user is typing: reset already started timer (if existing)
+            if (timer != null) {
+                timer!!.cancel()
+            }
         }
     }
 
