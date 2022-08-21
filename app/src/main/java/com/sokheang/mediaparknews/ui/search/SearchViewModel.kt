@@ -22,6 +22,7 @@ class SearchViewModel @Inject constructor() : ViewModel() {
     val isZeroItemsLoaded = MutableLiveData(false)
     val isLoadFail = MutableLiveData(false)
     val showResult = MutableLiveData(false)
+    val textQuery = MutableLiveData("")
 
     val searchResultCount = MutableLiveData("Search History")
 

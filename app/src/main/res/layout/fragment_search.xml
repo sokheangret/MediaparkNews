@@ -53,10 +53,11 @@
                         <EditText
                             android:id="@+id/edit_text_query"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
+                            android:layout_height="44dp"
                             android:padding="12dp"
                             android:layout_weight="12"
                             android:hint="@string/title_search"
+                            android:text="@={viewModel.textQuery}"
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:drawableStart="@drawable/ic_search"
@@ -66,8 +67,8 @@
 
                         <ImageButton
                             android:id="@+id/button_filter"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:background="@drawable/bg_search"
                             android:src="@drawable/ic_filter"
                             android:layout_marginHorizontal="8dp"
@@ -75,8 +76,8 @@
 
                         <ImageButton
                             android:id="@+id/button_sort"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:background="@drawable/bg_search"
                             android:src="@drawable/ic_sort"
                             android:layout_marginStart="4dp"

@@ -40,7 +40,6 @@ private var _binding: FragmentSearchBinding? = null
     private val articleList: ArrayList<ArticleListResponse.Article> = arrayListOf()
     private val searchHistoryList: ArrayList<SearchHistory> = arrayListOf()
 
-    private var querySearch = "None"
     private var fromPublishDate = ""
     private var toPublishDate = ""
     private var searchIn = "${Constants.SearchInConstants.TITLE}, ${Constants.SearchInConstants.DESCRIPTION}"
@@ -70,7 +69,7 @@ private var _binding: FragmentSearchBinding? = null
                 bottomSheetSortBy.show()
             }
 
-            setUpSearchArticleReyclerView()
+            setUpSearchArticleRecyclerView()
 
             setUpHistoryRecyclerView()
 
@@ -103,7 +102,7 @@ private var _binding: FragmentSearchBinding? = null
         })
     }
 
-    private fun setUpSearchArticleReyclerView() {
+    private fun setUpSearchArticleRecyclerView() {
         articleListAdapter = ArticleListAdapter(articleList)
         binding.recyclerViewSearchArticle.apply {
             layoutManager =
@@ -134,10 +133,16 @@ private var _binding: FragmentSearchBinding? = null
     }
 
     private fun setUpSearchWithEditText() {
-        binding.editTextQuery.setOnEditorActionListener { textView, actionId, _ ->
+        viewModel.textQuery.observe(viewLifecycleOwner) {
+            if(it.trim() == "") {
+                viewModel.showResult.value = false
+                viewModel.searchResultCount.value = "Search History"
+            }
+        }
+        binding.editTextQuery.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) { //User click search button on keyboard
-                querySearch = textView.text.toString().trim()
-                viewModel.saveHistory(listOf(SearchHistory(0, querySearch)))
+                //viewModel.textQuery.value = textView.text.toString().trim()
+                viewModel.saveHistory(listOf(SearchHistory(0, viewModel.textQuery.value!!)))
                 searchArticles()
                 return@setOnEditorActionListener true
             }
@@ -154,7 +159,7 @@ private var _binding: FragmentSearchBinding? = null
 
         viewModel.getArticleList(
             Constants.ArticleTypeConstants.SEARCH,
-            querySearch,
+            viewModel.textQuery.value!!.trim(),
             fromPublishDate,
             toPublishDate,
             searchIn,
@@ -195,8 +200,8 @@ private var _binding: FragmentSearchBinding? = null
     private fun onHistoryItemClick(searchHistory: SearchHistory) {
         //Fill in search box with data from user clicked
         binding.editTextQuery.setText(searchHistory.history)
-        querySearch = searchHistory.history
-        viewModel.saveHistory(listOf(SearchHistory(0,querySearch))) //Save again to make keep it first in list
+        viewModel.textQuery.value = searchHistory.history
+        viewModel.saveHistory(listOf(SearchHistory(0,viewModel.textQuery.value!!))) //Save again to make keep it first in list
         searchArticles()
     }
 
