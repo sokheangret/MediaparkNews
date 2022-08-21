@@ -6,7 +6,8 @@ package com.sokheang.mediaparknews.utils
 object Constants {
     object ApiConstants {
         const val BASE_URL = "https://gnews.io/"
-        const val API_KEY = "05c9aaed2df1e4e915813bbc95f6a6f0"
+        //const val API_KEY = "05c9aaed2df1e4e915813bbc95f6a6f0"
+        const val API_KEY = "b6055f5e15904573142a62d3f9bb9aec"
     }
 
     object ArticleTypeConstants {
