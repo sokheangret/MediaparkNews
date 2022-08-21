@@ -9,11 +9,13 @@ import com.sokheang.mediaparknews.room.data.SearchHistory
 /**
  * Create by Sokheang RET on 21-Aug-22.
  **/
-class SearchHistoryAdapter (private val searchHistoryListData: List<SearchHistory>) :
+class SearchHistoryAdapter (private val searchHistoryListData: List<SearchHistory>, private val onItemClick: (searchHistory: SearchHistory) -> Unit) :
 RecyclerView.Adapter<SearchHistoryAdapter.ViewHolder>() {
     inner class ViewHolder(val itemSearchBinding: ItemSearchHistoryBinding) : RecyclerView.ViewHolder(itemSearchBinding.root) {
         init {
-
+            itemSearchBinding.root.setOnClickListener {
+                onItemClick(searchHistoryListData[adapterPosition])
+            }
         }
     }
 

@@ -89,7 +89,7 @@ private var _binding: FragmentSearchBinding? = null
                 adapter = articleListAdapter
             }
 
-            searchHistoryAdapter = SearchHistoryAdapter(searchHistoryList)
+            searchHistoryAdapter = SearchHistoryAdapter(searchHistoryList, ::onHistoryItemClick)
             binding.recyclerViewSearchHistory.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 adapter = searchHistoryAdapter
@@ -115,6 +115,7 @@ private var _binding: FragmentSearchBinding? = null
     }
     return binding.root
   }
+
 
     private fun searchArticles() {
         viewModel.isLoading.value = true
@@ -158,6 +159,12 @@ private var _binding: FragmentSearchBinding? = null
         }
     }
 
+    private fun onHistoryItemClick(searchHistory: SearchHistory) {
+        binding.editTextQuery.setText(searchHistory.history)
+        querySearch = searchHistory.history
+        viewModel.saveHistory(listOf(SearchHistory(0,querySearch))) //Save again to make keep it first in list
+        searchArticles()
+    }
 
     //For search when typing
 //    private var timer: Timer? = null
