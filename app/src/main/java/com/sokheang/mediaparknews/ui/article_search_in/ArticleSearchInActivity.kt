@@ -1,12 +1,10 @@
 package com.sokheang.mediaparknews.ui.article_search_in
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.sokheang.mediaparknews.app.MediaparkNewsApp
 import com.sokheang.mediaparknews.databinding.ActivityArticleSearchInBinding
-import com.sokheang.mediaparknews.ui.article_filter.ArticleFilterViewModel
 import com.sokheang.mediaparknews.utils.Constants
 import javax.inject.Inject
 
@@ -37,38 +35,35 @@ class ArticleSearchInActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        if(searchIn.contains("title")) {
+        if(searchIn.contains(Constants.SearchInConstants.TITLE)) {
             viewModel.titleCheck.value = true
         }
 
-        if(searchIn.contains("description")) {
+        if(searchIn.contains(Constants.SearchInConstants.DESCRIPTION)) {
             viewModel.descriptionCheck.value = true
         }
 
-        if(searchIn.contains("content")) {
+        if(searchIn.contains(Constants.SearchInConstants.CONTENT)) {
             viewModel.contentCheck.value = true
         }
 
         viewModel.titleCheck.observe(this) {
-            if (it) searchList.add("title") else searchList.remove("title")
+            if (it) searchList.add(Constants.SearchInConstants.TITLE) else searchList.remove("title")
         }
 
         viewModel.descriptionCheck.observe(this) {
-            if (it) searchList.add("description") else searchList.remove("description")
+            if (it) searchList.add(Constants.SearchInConstants.DESCRIPTION) else searchList.remove("description")
         }
 
         viewModel.contentCheck.observe(this) {
-            if (it) searchList.add("content") else searchList.remove("content")
+            if (it) searchList.add(Constants.SearchInConstants.CONTENT) else searchList.remove("content")
         }
-
-        Log.d("xxxxxxx", "onCreate: $searchIn")
 
         binding.buttonApply.setOnClickListener {
             searchIn = ""
             searchList.forEach {
                 searchIn += "$it,"
             }
-            Log.d("xxxxxxx", "onCreate: $searchIn")
             val intent = Intent().apply {
                 putExtra(Constants.IntentConstants.SEARCH_IN, searchIn)
             }

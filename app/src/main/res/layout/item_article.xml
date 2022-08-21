@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_launcher_background"
             tools:ignore="ImageContrastCheck"
-            android:contentDescription="Article image" />
+            android:contentDescription="@string/article_image" />
 
         <TextView
             android:id="@+id/text_article_title"

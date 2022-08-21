@@ -12,8 +12,8 @@ class BottomSheetSortBy(context: Context,val onUploadDateClicked: () -> Unit, va
         val binding= LayoutSortByBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.radioGroupSort.setOnCheckedChangeListener { radioGroup, i ->
-            if(i == binding.radioByDate.id) {
+        binding.radioGroupSort.setOnCheckedChangeListener { _, id ->
+            if(id == binding.radioByDate.id) {
                 onUploadDateClicked()
             } else {
                 onRelevanceClicked()

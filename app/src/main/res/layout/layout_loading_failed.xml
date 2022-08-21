@@ -27,7 +27,7 @@
             android:id="@+id/text_loading_failed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Data loading failed"
+            android:text="@string/data_loading_failed"
             android:textAlignment="center"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_gravity="center" />

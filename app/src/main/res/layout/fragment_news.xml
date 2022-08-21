@@ -37,7 +37,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:contentDescription="media park logo"
+                        android:contentDescription="@string/media_park_logo"
                         android:paddingVertical="16dp"
                         android:src="@drawable/ic_mp_logo" />
                 </RelativeLayout>
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="News"
+            android:text="@string/news"
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{viewModel.isZeroItemsLoaded().booleanValue()? View.VISIBLE : View.GONE}"
-            android:text="No available data."
+            android:text="@string/no_available_data"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"

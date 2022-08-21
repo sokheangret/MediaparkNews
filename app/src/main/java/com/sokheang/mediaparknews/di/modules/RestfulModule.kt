@@ -1,6 +1,7 @@
 package com.sokheang.mediaparknews.di.modules
 
 import com.sokheang.mediaparknews.api.services.ApiService
+import com.sokheang.mediaparknews.utils.Constants
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -16,15 +17,11 @@ import javax.inject.Singleton
 @Module
 class RestfulModule {
 
-    companion object{
-        const val BASE_URL = "https://gnews.io/"
-    }
-
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.ApiConstants.BASE_URL)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())

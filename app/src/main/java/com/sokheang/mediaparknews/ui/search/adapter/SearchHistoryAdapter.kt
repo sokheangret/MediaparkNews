@@ -3,7 +3,6 @@ package com.sokheang.mediaparknews.ui.search.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sokheang.mediaparknews.databinding.FragmentSearchBinding
 import com.sokheang.mediaparknews.databinding.ItemSearchHistoryBinding
 import com.sokheang.mediaparknews.room.data.SearchHistory
 

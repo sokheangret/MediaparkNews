@@ -26,7 +26,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Search in"
+            android:text="@string/search_in"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Title"
+            android:text="@string/title"
             android:checked="@={viewModel.titleCheck}"
             android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Description"
+            android:text="@string/description"
             android:checked="@={viewModel.descriptionCheck}"
             android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Content"
+            android:text="@string/content"
             android:checked="@={viewModel.contentCheck}"
             android:textStyle="bold" />
 
@@ -87,6 +87,6 @@
             android:layout_height="60dp"
             android:layout_margin="16dp"
             app:cornerRadius="32dp"
-            android:text="Apply" />
+            android:text="@string/apply" />
     </LinearLayout>
 </layout>

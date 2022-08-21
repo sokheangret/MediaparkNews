@@ -4,11 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +22,6 @@ import com.sokheang.mediaparknews.ui.news.adapter.ArticleListAdapter
 import com.sokheang.mediaparknews.ui.search.adapter.SearchHistoryAdapter
 import com.sokheang.mediaparknews.utils.Constants
 import com.sokheang.mediaparknews.utils.views.BottomSheetSortBy
-import java.util.*
 import javax.inject.Inject
 
 
@@ -46,11 +40,11 @@ private var _binding: FragmentSearchBinding? = null
     private val articleList: ArrayList<ArticleListResponse.Article> = arrayListOf()
     private val searchHistoryList: ArrayList<SearchHistory> = arrayListOf()
 
-    var querySearch = "None"
-    var fromPublishDate = ""
-    var toPublishDate = ""
-    var searchIn = "title,description"
-    var sortBy = "publishedAt"
+    private var querySearch = "None"
+    private var fromPublishDate = ""
+    private var toPublishDate = ""
+    private var searchIn = "${Constants.SearchInConstants.TITLE}, ${Constants.SearchInConstants.DESCRIPTION}"
+    private var sortBy = Constants.SortByConstants.PUBLISH_AT
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,11 +70,11 @@ private var _binding: FragmentSearchBinding? = null
 
             bottomSheetSortBy = BottomSheetSortBy(requireContext(), {
                 //On sort by upload date selected
-                sortBy = "publishedAt"
+                sortBy = Constants.SortByConstants.PUBLISH_AT
                 searchArticles()
             },{
                 //On sort by upload relevance selected
-                sortBy = "relevance"
+                sortBy = Constants.SortByConstants.RELEVANCE
                 searchArticles()
             })
 
@@ -109,7 +103,7 @@ private var _binding: FragmentSearchBinding? = null
             }
 
             //binding.editTextQuery.addTextChangedListener(searchTextWatcher)
-            binding.editTextQuery.setOnEditorActionListener { textView, actionId, keyEvent ->
+            binding.editTextQuery.setOnEditorActionListener { textView, actionId, _ ->
                 if(actionId == EditorInfo.IME_ACTION_SEARCH) {
                     querySearch = textView.text.toString().trim()
                     viewModel.saveHistory(listOf(SearchHistory(0,querySearch)))
@@ -129,7 +123,7 @@ private var _binding: FragmentSearchBinding? = null
         viewModel.showResult.value = true
 
         viewModel.getArticleList(
-            "search",
+            Constants.ArticleTypeConstants.SEARCH,
             querySearch,
             fromPublishDate,
             toPublishDate,
@@ -141,8 +135,8 @@ private var _binding: FragmentSearchBinding? = null
                 articleList.clear()
                 if (it != null) {
                     viewModel.isLoadFail.value = false
-                    viewModel.isZeroItemsLoaded.value = articleList.isNotEmpty()
                     articleList.addAll(it.articles)
+                    viewModel.isZeroItemsLoaded.value = articleList.isEmpty()
                     articleListAdapter.notifyDataSetChanged()
                     viewModel.searchResultCount.value = "${it.totalArticles} news"
                 } else {
@@ -165,6 +159,7 @@ private var _binding: FragmentSearchBinding? = null
     }
 
 
+    //For search when typing
 //    private var timer: Timer? = null
 //    private val searchTextWatcher: TextWatcher = object : TextWatcher {
 //        override fun afterTextChanged(arg0: Editable) {

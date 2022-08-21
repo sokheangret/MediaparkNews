@@ -7,7 +7,6 @@ import com.sokheang.mediaparknews.api.repository.ApiRepository
 import com.sokheang.mediaparknews.models.ArticleListResponse
 import com.sokheang.mediaparknews.room.dao.SearchHistoryDao
 import com.sokheang.mediaparknews.room.data.SearchHistory
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 

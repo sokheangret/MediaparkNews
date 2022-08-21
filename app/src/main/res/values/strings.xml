@@ -5,4 +5,27 @@
     <string name="title_search">Search</string>
     <string name="title_profile">Profile</string>
     <string name="title_more">More</string>
+    <string name="filter">Filter</string>
+    <string name="date">Date</string>
+    <string name="from">From</string>
+    <string name="yyyy_mm_dd">yyyy-mm-dd</string>
+    <string name="to">To</string>
+    <string name="search_in">Search in</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="content">Content</string>
+    <string name="apply">Apply</string>
+    <string name="media_park_logo">media park logo</string>
+    <string name="news">News</string>
+    <string name="no_available_data">No available data.</string>
+    <string name="filter_button">filter_button</string>
+    <string name="sort_button">sort button</string>
+    <string name="article_image">Article image</string>
+    <string name="loading">Loading…</string>
+    <string name="data_loading_failed">Data loading failed.</string>
+    <string name="upload_date">Upload date</string>
+    <string name="clear">Clear</string>
+    <string name="relevance">Relevance</string>
+    <string name="sort_by">Sort by</string>
 </resources>
