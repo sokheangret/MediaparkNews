@@ -28,4 +28,5 @@
     <string name="clear">Clear</string>
     <string name="relevance">Relevance</string>
     <string name="sort_by">Sort by</string>
+    <string name="delete_history">Delete history</string>
 </resources>

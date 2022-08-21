@@ -16,6 +16,10 @@ interface SearchHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveSearchHistory(histories: List<SearchHistory>): Single<List<Long>>
 
+    /**
+     * To delete one or more products.
+     * Returns number of rows deleted. 0 if no row deleted.
+     */
     @Delete
-    fun deleteSearchHistory(history: SearchHistory)
+    fun deleteSearchHistory(history: SearchHistory): Single<Int>
 }

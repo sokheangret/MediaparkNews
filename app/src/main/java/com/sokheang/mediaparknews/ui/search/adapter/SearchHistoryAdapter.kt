@@ -9,7 +9,10 @@ import com.sokheang.mediaparknews.room.data.SearchHistory
 /**
  * Create by Sokheang RET on 21-Aug-22.
  **/
-class SearchHistoryAdapter (private val searchHistoryListData: List<SearchHistory>, private val onItemClick: (searchHistory: SearchHistory) -> Unit) :
+class SearchHistoryAdapter (private val searchHistoryListData: List<SearchHistory>,
+                            private val onItemClick: (searchHistory: SearchHistory) -> Unit,
+                            private val onDeleteItemClick: (searchHistory: SearchHistory, position: Int) -> Unit,
+) :
 RecyclerView.Adapter<SearchHistoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(val itemSearchBinding: ItemSearchHistoryBinding) : RecyclerView.ViewHolder(itemSearchBinding.root) {
@@ -17,6 +20,10 @@ RecyclerView.Adapter<SearchHistoryAdapter.ViewHolder>() {
             //Handle when search item clicked
             itemSearchBinding.root.setOnClickListener {
                 onItemClick(searchHistoryListData[adapterPosition])
+            }
+
+            itemSearchBinding.buttonDeleteHistory.setOnClickListener {
+                onDeleteItemClick(searchHistoryListData[adapterPosition], adapterPosition)
             }
         }
     }

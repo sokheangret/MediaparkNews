@@ -113,7 +113,7 @@ private var _binding: FragmentSearchBinding? = null
     }
 
     private fun setUpHistoryRecyclerView() {
-        searchHistoryAdapter = SearchHistoryAdapter(searchHistoryList, ::onHistoryItemClick)
+        searchHistoryAdapter = SearchHistoryAdapter(searchHistoryList, ::onHistoryItemClick, ::onDeleteHistoryItemClick)
         binding.recyclerViewSearchHistory.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -142,7 +142,10 @@ private var _binding: FragmentSearchBinding? = null
         binding.editTextQuery.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) { //User click search button on keyboard
                 //viewModel.textQuery.value = textView.text.toString().trim()
-                viewModel.saveHistory(listOf(SearchHistory(0, viewModel.textQuery.value!!)))
+                val history = SearchHistory(0, viewModel.textQuery.value!!)
+                viewModel.saveHistory(listOf(history)) //save to DB
+                searchHistoryList.add(0,history) //save to list
+                searchHistoryAdapter.notifyItemInserted(0) //notify recycler view
                 searchArticles()
                 return@setOnEditorActionListener true
             }
@@ -203,6 +206,16 @@ private var _binding: FragmentSearchBinding? = null
         viewModel.textQuery.value = searchHistory.history
         viewModel.saveHistory(listOf(SearchHistory(0,viewModel.textQuery.value!!))) //Save again to make keep it first in list
         searchArticles()
+    }
+
+    //Callback when user click on delete history item
+    private fun onDeleteHistoryItemClick(searchHistory: SearchHistory, position: Int) {
+        viewModel.deleteHistory(searchHistory).observe(viewLifecycleOwner) {
+            if(it > 0) { //at least 1 row effect
+                searchHistoryList.removeAt(position)
+                searchHistoryAdapter.notifyItemRemoved(position)
+            }
+        }
     }
 
     //For search when typing

@@ -54,4 +54,14 @@ class SearchViewModel @Inject constructor() : ViewModel() {
             }
         return data
     }
+
+    fun deleteHistory(history: SearchHistory): LiveData<Int> {
+        val data = MutableLiveData<Int>()
+        searchHistoryDao.deleteSearchHistory(history)
+            .subscribeOn(Schedulers.io())
+            .subscribe { effectRow: Int ->
+                data.postValue(effectRow)
+            }
+        return data
+    }
 }

@@ -145,7 +145,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layoutAnimation="@anim/layout_animation_fall_down"
-            android:visibility="@{viewModel.isLoadFail().booleanValue() || viewModel.isZeroItemsLoaded().booleanValue() || viewModel.isLoading() ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.isLoadFail().booleanValue() || viewModel.isZeroItemsLoaded().booleanValue() || viewModel.isLoading() || !viewModel.showResult ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
