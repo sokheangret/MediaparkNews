@@ -13,6 +13,7 @@ import com.sokheang.mediaparknews.app.MediaparkNewsApp
 import com.sokheang.mediaparknews.databinding.FragmentNewsBinding
 import com.sokheang.mediaparknews.models.ArticleListResponse
 import com.sokheang.mediaparknews.ui.news.adapter.ArticleListAdapter
+import com.sokheang.mediaparknews.utils.Constants
 import javax.inject.Inject
 
 class NewsFragment : Fragment() {
@@ -34,7 +35,7 @@ class NewsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        if(_binding == null) {
+        if(_binding == null) { //init binding incase it null
             _binding = FragmentNewsBinding.inflate(inflater, container, false)
 
             articleListAdapter = ArticleListAdapter(articleList)
@@ -42,15 +43,20 @@ class NewsFragment : Fragment() {
             binding.lifecycleOwner = viewLifecycleOwner
             binding.viewModel = viewModel
 
-            binding.recyclerViewArticle.apply {
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                itemAnimator = DefaultItemAnimator()
-                adapter = articleListAdapter
-            }
+            setUpArticleRecyclerView()
 
-            viewModel.getArticleList("top-headlines").observe(viewLifecycleOwner) {
+            getArticleTopHeadLineList()
+        }
+        return binding.root
+    }
+
+    //Get top head line list
+    private fun getArticleTopHeadLineList() {
+        viewModel.getArticleList(Constants.ArticleTypeConstants.TOP_HEAD_LINE)
+            .observe(viewLifecycleOwner) {
                 viewModel.isLoading.value = false
-                if(it != null) {
+                //Handle when recieve data
+                if (it != null) {
                     viewModel.isZeroItemsLoaded.value = articleList.isNotEmpty()
                     articleList.addAll(it.articles)
                     articleListAdapter.notifyDataSetChanged()
@@ -58,8 +64,15 @@ class NewsFragment : Fragment() {
                     viewModel.isLoadFail.value = true
                 }
             }
+    }
+
+    private fun setUpArticleRecyclerView() {
+        binding.recyclerViewArticle.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            itemAnimator = DefaultItemAnimator()
+            adapter = articleListAdapter
         }
-        return binding.root
     }
 
     override fun onDestroyView() {

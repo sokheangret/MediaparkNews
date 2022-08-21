@@ -11,6 +11,7 @@ object Constants {
 
     object ArticleTypeConstants {
         const val SEARCH = "search"
+        const val TOP_HEAD_LINE = "top-headlines"
     }
 
     object IntentConstants {

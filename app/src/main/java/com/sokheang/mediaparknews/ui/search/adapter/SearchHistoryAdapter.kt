@@ -11,8 +11,10 @@ import com.sokheang.mediaparknews.room.data.SearchHistory
  **/
 class SearchHistoryAdapter (private val searchHistoryListData: List<SearchHistory>, private val onItemClick: (searchHistory: SearchHistory) -> Unit) :
 RecyclerView.Adapter<SearchHistoryAdapter.ViewHolder>() {
+
     inner class ViewHolder(val itemSearchBinding: ItemSearchHistoryBinding) : RecyclerView.ViewHolder(itemSearchBinding.root) {
         init {
+            //Handle when search item clicked
             itemSearchBinding.root.setOnClickListener {
                 onItemClick(searchHistoryListData[adapterPosition])
             }

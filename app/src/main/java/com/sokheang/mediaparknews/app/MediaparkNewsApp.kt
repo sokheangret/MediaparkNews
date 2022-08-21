@@ -16,6 +16,7 @@ class MediaparkNewsApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        //Build Dagger application components
         applicationComponents = DaggerApplicationComponents.builder()
             .networkModule(NetworkModule())
             .restfulModule(RestfulModule())

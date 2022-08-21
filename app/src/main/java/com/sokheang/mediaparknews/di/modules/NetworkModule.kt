@@ -22,7 +22,7 @@ class NetworkModule {
         return  OkHttpClient.Builder()
             .readTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
-            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(httpLoggingInterceptor) //show http log
             .followRedirects(false)
             .followSslRedirects(false)
             .retryOnConnectionFailure(false)

@@ -9,6 +9,7 @@ import io.reactivex.Single
  **/
 @Dao
 interface SearchHistoryDao {
+    //Order by id desc to get last history just saved
     @Query("SELECT * FROM search_history order by id desc")
     fun getAllHistory(): Single<List<SearchHistory>>
 

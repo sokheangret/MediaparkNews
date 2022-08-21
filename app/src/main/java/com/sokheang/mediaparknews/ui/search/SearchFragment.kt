@@ -60,63 +60,92 @@ private var _binding: FragmentSearchBinding? = null
             binding.viewModel = viewModel
 
             binding.buttonFilter.setOnClickListener {
-                val intent = Intent(context, ArticleFilterActivity::class.java).apply {
-                    putExtra(Constants.IntentConstants.FROM_PUBLISH_DATE, fromPublishDate)
-                    putExtra(Constants.IntentConstants.TO_PUBLISH_DATE, toPublishDate)
-                    putExtra(Constants.IntentConstants.SEARCH_IN, searchIn)
-                }
-                resultLauncher.launch(intent)
+                navigateToArticleFilter()
             }
 
-            bottomSheetSortBy = BottomSheetSortBy(requireContext(), {
-                //On sort by upload date selected
-                sortBy = Constants.SortByConstants.PUBLISH_AT
-                searchArticles()
-            },{
-                //On sort by upload relevance selected
-                sortBy = Constants.SortByConstants.RELEVANCE
-                searchArticles()
-            })
+            setUpBottomSheetForSortOption()
 
+            //Show bottom sheet for sort option
             binding.buttonSort.setOnClickListener {
                 bottomSheetSortBy.show()
             }
 
-            articleListAdapter = ArticleListAdapter(articleList)
-            binding.recyclerViewSearchArticle.apply {
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                itemAnimator = DefaultItemAnimator()
-                adapter = articleListAdapter
-            }
+            setUpSearchArticleReyclerView()
 
-            searchHistoryAdapter = SearchHistoryAdapter(searchHistoryList, ::onHistoryItemClick)
-            binding.recyclerViewSearchHistory.apply {
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                adapter = searchHistoryAdapter
-            }
-            viewModel.getAllHistory().observe(
-                viewLifecycleOwner
-            ) {
-                searchHistoryList.clear()
-                searchHistoryList.addAll(it)
-                searchHistoryAdapter.notifyDataSetChanged()
-            }
+            setUpHistoryRecyclerView()
+
+            getHistoryListFromRoomDB()
 
             //binding.editTextQuery.addTextChangedListener(searchTextWatcher)
-            binding.editTextQuery.setOnEditorActionListener { textView, actionId, _ ->
-                if(actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    querySearch = textView.text.toString().trim()
-                    viewModel.saveHistory(listOf(SearchHistory(0,querySearch)))
-                    searchArticles()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
+            setUpSearchWithEditText()
     }
     return binding.root
   }
 
+    private fun navigateToArticleFilter() {
+        val intent = Intent(context, ArticleFilterActivity::class.java).apply {
+            putExtra(Constants.IntentConstants.FROM_PUBLISH_DATE, fromPublishDate)
+            putExtra(Constants.IntentConstants.TO_PUBLISH_DATE, toPublishDate)
+            putExtra(Constants.IntentConstants.SEARCH_IN, searchIn)
+        }
+        resultLauncher.launch(intent)
+    }
 
+    private fun setUpBottomSheetForSortOption() {
+        bottomSheetSortBy = BottomSheetSortBy(requireContext(), {
+            //On sort by upload date selected
+            sortBy = Constants.SortByConstants.PUBLISH_AT
+            searchArticles()
+        }, {
+            //On sort by upload relevance selected
+            sortBy = Constants.SortByConstants.RELEVANCE
+            searchArticles()
+        })
+    }
+
+    private fun setUpSearchArticleReyclerView() {
+        articleListAdapter = ArticleListAdapter(articleList)
+        binding.recyclerViewSearchArticle.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            itemAnimator = DefaultItemAnimator()
+            adapter = articleListAdapter
+        }
+    }
+
+    private fun setUpHistoryRecyclerView() {
+        searchHistoryAdapter = SearchHistoryAdapter(searchHistoryList, ::onHistoryItemClick)
+        binding.recyclerViewSearchHistory.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = searchHistoryAdapter
+        }
+    }
+
+    //Get history list from Room DB and setup with recycler view list
+    private fun getHistoryListFromRoomDB() {
+        viewModel.getAllHistory().observe(
+            viewLifecycleOwner
+        ) {
+            searchHistoryList.clear()
+            searchHistoryList.addAll(it)
+            searchHistoryAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun setUpSearchWithEditText() {
+        binding.editTextQuery.setOnEditorActionListener { textView, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) { //User click search button on keyboard
+                querySearch = textView.text.toString().trim()
+                viewModel.saveHistory(listOf(SearchHistory(0, querySearch)))
+                searchArticles()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+    }
+
+    //get search article list
     private fun searchArticles() {
         viewModel.isLoading.value = true
         viewModel.isLoadFail.value = false
@@ -134,13 +163,16 @@ private var _binding: FragmentSearchBinding? = null
             .observe(viewLifecycleOwner) {
                 viewModel.isLoading.value = false
                 articleList.clear()
+                //handle when success (data not null)
                 if (it != null) {
                     viewModel.isLoadFail.value = false
                     articleList.addAll(it.articles)
+                    //show no data
                     viewModel.isZeroItemsLoaded.value = articleList.isEmpty()
                     articleListAdapter.notifyDataSetChanged()
                     viewModel.searchResultCount.value = "${it.totalArticles} news"
                 } else {
+                    //show error message (data null)
                     viewModel.isLoadFail.value = true
                     viewModel.searchResultCount.value = "Search History"
                 }
@@ -159,7 +191,9 @@ private var _binding: FragmentSearchBinding? = null
         }
     }
 
+    //Callback when user click on history item
     private fun onHistoryItemClick(searchHistory: SearchHistory) {
+        //Fill in search box with data from user clicked
         binding.editTextQuery.setText(searchHistory.history)
         querySearch = searchHistory.history
         viewModel.saveHistory(listOf(SearchHistory(0,querySearch))) //Save again to make keep it first in list

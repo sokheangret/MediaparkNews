@@ -28,39 +28,11 @@ class ArticleSearchInActivity : AppCompatActivity() {
 
         searchIn = intent.getStringExtra(Constants.IntentConstants.SEARCH_IN).toString()
 
-        binding.toolbar.textClear.visibility = View.VISIBLE
-        binding.toolbar.textClear.setOnClickListener {
-            clearFilter()
-        }
+        setUpToolbar()
 
-        binding.toolbar.buttonBack.visibility = View.VISIBLE
-        binding.toolbar.buttonBack.setOnClickListener {
-            onBackPressed()
-        }
+        setUpSwitchButtonSearchIn()
 
-        if(searchIn.contains(Constants.SearchInConstants.TITLE)) {
-            viewModel.titleCheck.value = true
-        }
-
-        if(searchIn.contains(Constants.SearchInConstants.DESCRIPTION)) {
-            viewModel.descriptionCheck.value = true
-        }
-
-        if(searchIn.contains(Constants.SearchInConstants.CONTENT)) {
-            viewModel.contentCheck.value = true
-        }
-
-        viewModel.titleCheck.observe(this) {
-            if (it) searchList.add(Constants.SearchInConstants.TITLE) else searchList.remove(Constants.SearchInConstants.TITLE)
-        }
-
-        viewModel.descriptionCheck.observe(this) {
-            if (it) searchList.add(Constants.SearchInConstants.DESCRIPTION) else searchList.remove(Constants.SearchInConstants.DESCRIPTION)
-        }
-
-        viewModel.contentCheck.observe(this) {
-            if (it) searchList.add(Constants.SearchInConstants.CONTENT) else searchList.remove(Constants.SearchInConstants.CONTENT)
-        }
+        setUpObservableForHandleWhenUserClickOnSwitch()
 
         binding.buttonApply.setOnClickListener {
             searchIn = ""
@@ -75,6 +47,57 @@ class ArticleSearchInActivity : AppCompatActivity() {
         }
     }
 
+    //set up handle when user click on switch option search in
+    private fun setUpObservableForHandleWhenUserClickOnSwitch() {
+        viewModel.titleCheck.observe(this) {
+            if (it) searchList.add(Constants.SearchInConstants.TITLE) else searchList.remove(
+                Constants.SearchInConstants.TITLE
+            )
+        }
+
+        viewModel.descriptionCheck.observe(this) {
+            if (it) searchList.add(Constants.SearchInConstants.DESCRIPTION) else searchList.remove(
+                Constants.SearchInConstants.DESCRIPTION
+            )
+        }
+
+        viewModel.contentCheck.observe(this) {
+            if (it) searchList.add(Constants.SearchInConstants.CONTENT) else searchList.remove(
+                Constants.SearchInConstants.CONTENT
+            )
+        }
+    }
+
+    //Set up switch button
+    private fun setUpSwitchButtonSearchIn() {
+        if (searchIn.contains(Constants.SearchInConstants.TITLE)) {
+            viewModel.titleCheck.value = true
+        }
+
+        if (searchIn.contains(Constants.SearchInConstants.DESCRIPTION)) {
+            viewModel.descriptionCheck.value = true
+        }
+
+        if (searchIn.contains(Constants.SearchInConstants.CONTENT)) {
+            viewModel.contentCheck.value = true
+        }
+    }
+
+    private fun setUpToolbar() {
+        //Show clear button and add listener
+        binding.toolbar.textClear.visibility = View.VISIBLE
+        binding.toolbar.textClear.setOnClickListener {
+            clearFilter()
+        }
+
+        //Show back button and add listener
+        binding.toolbar.buttonBack.visibility = View.VISIBLE
+        binding.toolbar.buttonBack.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    //Clear value
     private fun clearFilter() {
         searchList.clear()
         viewModel.titleCheck.value = false

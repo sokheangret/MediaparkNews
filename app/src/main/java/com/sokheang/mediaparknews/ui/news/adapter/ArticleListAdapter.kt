@@ -10,6 +10,7 @@ import com.sokheang.mediaparknews.R
 import com.sokheang.mediaparknews.databinding.ItemArticleBinding
 import com.sokheang.mediaparknews.models.ArticleListResponse
 import com.sokheang.mediaparknews.ui.article_web.ArticleWebActivity
+import com.sokheang.mediaparknews.utils.Constants
 import com.squareup.picasso.Picasso
 
 /**
@@ -21,11 +22,10 @@ class ArticleListAdapter (private val articleListData: List<ArticleListResponse.
     inner class ViewHolder(val itemArticleBinding: ItemArticleBinding) : RecyclerView.ViewHolder(itemArticleBinding.root) {
 
         init {
+            //item click go to web view activity
             itemArticleBinding.root.setOnClickListener {
-//                itemArticleBinding.root.findNavController()
-//                    .navigate(R.id.action_navigation_news_to_articleWebViewFragment, bundleOf(Pair("articleUrl",articleListData[adapterPosition].url)))
                 val intent = Intent(itemArticleBinding.root.context,ArticleWebActivity::class.java).apply {
-                    putExtra("ARTICLE_URL",articleListData[adapterPosition].url)
+                    putExtra(Constants.IntentConstants.ARTICLE_URL,articleListData[adapterPosition].url)
                 }
                 itemArticleBinding.root.context.startActivity(intent)
             }

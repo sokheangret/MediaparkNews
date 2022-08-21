@@ -18,6 +18,7 @@ class BottomSheetSortBy(context: Context,val onUploadDateClicked: () -> Unit, va
             } else {
                 onRelevanceClicked()
             }
+            //close bottom sheen when user click on option
             dismiss()
         }
     }
