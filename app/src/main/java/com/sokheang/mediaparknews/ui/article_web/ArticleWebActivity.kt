@@ -19,7 +19,7 @@ class ArticleWebActivity : AppCompatActivity() {
 
         val articleUrl = intent.getStringExtra(Constants.IntentConstants.ARTICLE_URL)
 
-        binding.toolbar.textClear.visibility = View.INVISIBLE
+        binding.toolbar.buttonBack.visibility = View.VISIBLE
         binding.toolbar.buttonBack.setOnClickListener {
             onBackPressed()
         }

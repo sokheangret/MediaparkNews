@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.more.MoreFragment">
 
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/layout_toolbar"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

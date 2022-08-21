@@ -3,10 +3,10 @@ package com.sokheang.mediaparknews.ui.article_filter
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.sokheang.mediaparknews.app.MediaparkNewsApp
 import com.sokheang.mediaparknews.databinding.ActivityArticleFilterBinding
@@ -51,10 +51,12 @@ class ArticleFilterActivity : AppCompatActivity() {
             showDatePickerDialog(binding.editToDate)
         }
 
+        binding.toolbar.textClear.visibility = View.VISIBLE
         binding.toolbar.textClear.setOnClickListener {
             clearFilter()
         }
 
+        binding.toolbar.buttonBack.visibility = View.VISIBLE
         binding.toolbar.buttonBack.setOnClickListener {
             onBackPressed()
         }

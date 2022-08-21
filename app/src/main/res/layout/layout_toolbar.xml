@@ -29,12 +29,13 @@
                     android:src="@drawable/ic_arrow_back"
                     android:layout_marginEnd="30dp"
                     android:background="@null"
+                    android:visibility="invisible"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:contentDescription="media park logo"
+                    android:contentDescription="@string/media_park_logo"
                     android:paddingVertical="16dp"
                     android:src="@drawable/ic_mp_logo"
                     android:layout_toEndOf="@id/button_back"
@@ -51,6 +52,7 @@
                     android:text="@string/clear"
                     android:textColor="@color/primary"
                     android:textStyle="bold"
+                    android:visibility="invisible"
                     app:drawableEndCompat="@drawable/ic_delete" />
             </RelativeLayout>
 

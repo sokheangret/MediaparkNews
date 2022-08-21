@@ -2,6 +2,7 @@ package com.sokheang.mediaparknews.ui.article_search_in
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sokheang.mediaparknews.app.MediaparkNewsApp
 import com.sokheang.mediaparknews.databinding.ActivityArticleSearchInBinding
@@ -27,10 +28,12 @@ class ArticleSearchInActivity : AppCompatActivity() {
 
         searchIn = intent.getStringExtra(Constants.IntentConstants.SEARCH_IN).toString()
 
+        binding.toolbar.textClear.visibility = View.VISIBLE
         binding.toolbar.textClear.setOnClickListener {
             clearFilter()
         }
 
+        binding.toolbar.buttonBack.visibility = View.VISIBLE
         binding.toolbar.buttonBack.setOnClickListener {
             onBackPressed()
         }
@@ -48,15 +51,15 @@ class ArticleSearchInActivity : AppCompatActivity() {
         }
 
         viewModel.titleCheck.observe(this) {
-            if (it) searchList.add(Constants.SearchInConstants.TITLE) else searchList.remove("title")
+            if (it) searchList.add(Constants.SearchInConstants.TITLE) else searchList.remove(Constants.SearchInConstants.TITLE)
         }
 
         viewModel.descriptionCheck.observe(this) {
-            if (it) searchList.add(Constants.SearchInConstants.DESCRIPTION) else searchList.remove("description")
+            if (it) searchList.add(Constants.SearchInConstants.DESCRIPTION) else searchList.remove(Constants.SearchInConstants.DESCRIPTION)
         }
 
         viewModel.contentCheck.observe(this) {
-            if (it) searchList.add(Constants.SearchInConstants.CONTENT) else searchList.remove("content")
+            if (it) searchList.add(Constants.SearchInConstants.CONTENT) else searchList.remove(Constants.SearchInConstants.CONTENT)
         }
 
         binding.buttonApply.setOnClickListener {
