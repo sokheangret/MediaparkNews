@@ -8,9 +8,11 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -19,8 +21,10 @@ import com.sokheang.mediaparknews.MainActivity
 import com.sokheang.mediaparknews.app.MediaparkNewsApp
 import com.sokheang.mediaparknews.databinding.FragmentSearchBinding
 import com.sokheang.mediaparknews.models.ArticleListResponse
+import com.sokheang.mediaparknews.room.data.SearchHistory
 import com.sokheang.mediaparknews.ui.article_filter.ArticleFilterActivity
 import com.sokheang.mediaparknews.ui.news.adapter.ArticleListAdapter
+import com.sokheang.mediaparknews.ui.search.adapter.SearchHistoryAdapter
 import com.sokheang.mediaparknews.utils.Constants
 import com.sokheang.mediaparknews.utils.views.BottomSheetSortBy
 import java.util.*
@@ -36,15 +40,17 @@ private var _binding: FragmentSearchBinding? = null
 
     private val binding get() = _binding!!
     private lateinit var articleListAdapter: ArticleListAdapter
+    private lateinit var searchHistoryAdapter: SearchHistoryAdapter
     private lateinit var bottomSheetSortBy: BottomSheetSortBy
 
     private val articleList: ArrayList<ArticleListResponse.Article> = arrayListOf()
+    private val searchHistoryList: ArrayList<SearchHistory> = arrayListOf()
 
     var querySearch = "None"
     var fromPublishDate = ""
     var toPublishDate = ""
     var searchIn = "title,description"
-    var sortBy = ""
+    var sortBy = "publishedAt"
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -89,7 +95,29 @@ private var _binding: FragmentSearchBinding? = null
                 adapter = articleListAdapter
             }
 
-            binding.editTextQuery.addTextChangedListener(searchTextWatcher)
+            searchHistoryAdapter = SearchHistoryAdapter(searchHistoryList)
+            binding.recyclerViewSearchHistory.apply {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                adapter = searchHistoryAdapter
+            }
+            viewModel.getAllHistory().observe(
+                viewLifecycleOwner
+            ) {
+                searchHistoryList.clear()
+                searchHistoryList.addAll(it)
+                searchHistoryAdapter.notifyDataSetChanged()
+            }
+
+            //binding.editTextQuery.addTextChangedListener(searchTextWatcher)
+            binding.editTextQuery.setOnEditorActionListener { textView, actionId, keyEvent ->
+                if(actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    querySearch = textView.text.toString().trim()
+                    viewModel.saveHistory(listOf(SearchHistory(0,querySearch)))
+                    searchArticles()
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
     }
     return binding.root
   }
@@ -98,6 +126,8 @@ private var _binding: FragmentSearchBinding? = null
         viewModel.isLoading.value = true
         viewModel.isLoadFail.value = false
         viewModel.isZeroItemsLoaded.value = false
+        viewModel.showResult.value = true
+
         viewModel.getArticleList(
             "search",
             querySearch,
@@ -134,34 +164,34 @@ private var _binding: FragmentSearchBinding? = null
         }
     }
 
-    private var timer: Timer? = null
 
-    private val searchTextWatcher: TextWatcher = object : TextWatcher {
-        override fun afterTextChanged(arg0: Editable) {
-            // user typed: start the timer
-            timer = Timer()
-            timer!!.schedule(object : TimerTask() {
-                override fun run() {
-                    val handler = Handler(Looper.getMainLooper())
-                    handler.post {
-                        querySearch = arg0.toString().trim()
-                        searchArticles()
-                    }
-                }
-            }, 600) // 600ms delay before the timer executes the „run“ method from TimerTask
-        }
-
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            // nothing to do here
-        }
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            // user is typing: reset already started timer (if existing)
-            if (timer != null) {
-                timer!!.cancel()
-            }
-        }
-    }
+//    private var timer: Timer? = null
+//    private val searchTextWatcher: TextWatcher = object : TextWatcher {
+//        override fun afterTextChanged(arg0: Editable) {
+//            // user typed: start the timer
+//            timer = Timer()
+//            timer!!.schedule(object : TimerTask() {
+//                override fun run() {
+//                    val handler = Handler(Looper.getMainLooper())
+//                    handler.post {
+//                        querySearch = arg0.toString().trim()
+//                        searchArticles()
+//                    }
+//                }
+//            }, 600) // 600ms delay before the timer executes the „run“ method from TimerTask
+//        }
+//
+//        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+//            // nothing to do here
+//        }
+//
+//        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//            // user is typing: reset already started timer (if existing)
+//            if (timer != null) {
+//                timer!!.cancel()
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

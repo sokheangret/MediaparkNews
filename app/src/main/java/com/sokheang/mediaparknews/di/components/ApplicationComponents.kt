@@ -4,6 +4,7 @@ import com.sokheang.mediaparknews.MainActivity
 import com.sokheang.mediaparknews.di.modules.ApplicationModule
 import com.sokheang.mediaparknews.di.modules.NetworkModule
 import com.sokheang.mediaparknews.di.modules.RestfulModule
+import com.sokheang.mediaparknews.di.modules.RoomModule
 import com.sokheang.mediaparknews.ui.article_filter.ArticleFilterActivity
 import com.sokheang.mediaparknews.ui.article_search_in.ArticleSearchInActivity
 import com.sokheang.mediaparknews.ui.news.NewsFragment
@@ -16,7 +17,7 @@ import javax.inject.Singleton
  **/
 
 @Singleton
-@Component(modules = [ApplicationModule::class, NetworkModule::class, RestfulModule::class])
+@Component(modules = [ApplicationModule::class, NetworkModule::class, RestfulModule::class, RoomModule::class])
 interface ApplicationComponents {
     fun inject(activity: MainActivity)
     fun inject(activity: NewsFragment)

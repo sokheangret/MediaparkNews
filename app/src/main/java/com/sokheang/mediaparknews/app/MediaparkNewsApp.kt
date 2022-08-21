@@ -6,6 +6,7 @@ import com.sokheang.mediaparknews.di.components.DaggerApplicationComponents
 import com.sokheang.mediaparknews.di.modules.ApplicationModule
 import com.sokheang.mediaparknews.di.modules.NetworkModule
 import com.sokheang.mediaparknews.di.modules.RestfulModule
+import com.sokheang.mediaparknews.di.modules.RoomModule
 
 /**
  * Create by Sokheang RET on 19-Aug-22.
@@ -18,6 +19,7 @@ class MediaparkNewsApp : Application() {
         applicationComponents = DaggerApplicationComponents.builder()
             .networkModule(NetworkModule())
             .restfulModule(RestfulModule())
+            .roomModule(RoomModule(this))
             .applicationModule(ApplicationModule(this))
             .build()
     }
