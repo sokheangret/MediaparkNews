@@ -5,12 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sokheang.mediaparknews.api.repository.ApiRepository
 import com.sokheang.mediaparknews.models.ArticleListResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class NewsViewModel @Inject constructor() : ViewModel() {
-
-    @Inject
-    lateinit var apiRepository: ApiRepository
+@HiltViewModel
+class NewsViewModel @Inject constructor(private val apiRepository: ApiRepository) : ViewModel() {
 
     val isLoading = MutableLiveData(true)
     val isZeroItemsLoaded = MutableLiveData(false)

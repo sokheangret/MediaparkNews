@@ -7,16 +7,13 @@ import com.sokheang.mediaparknews.api.repository.ApiRepository
 import com.sokheang.mediaparknews.models.ArticleListResponse
 import com.sokheang.mediaparknews.room.dao.SearchHistoryDao
 import com.sokheang.mediaparknews.room.data.SearchHistory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor() : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(val apiRepository: ApiRepository, val searchHistoryDao: SearchHistoryDao) : ViewModel() {
 
-    @Inject
-    lateinit var apiRepository: ApiRepository
-
-    @Inject
-    lateinit var searchHistoryDao: SearchHistoryDao
 
     val isLoading = MutableLiveData(false)
     val isZeroItemsLoaded = MutableLiveData(false)

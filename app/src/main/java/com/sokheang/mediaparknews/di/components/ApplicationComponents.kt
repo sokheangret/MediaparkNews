@@ -16,12 +16,12 @@ import javax.inject.Singleton
  * Create by Sokheang RET on 19-Aug-22.
  **/
 
-@Singleton
-@Component(modules = [ApplicationModule::class, NetworkModule::class, RestfulModule::class, RoomModule::class])
-interface ApplicationComponents {
-    fun inject(activity: MainActivity)
-    fun inject(activity: NewsFragment)
-    fun inject(activity: SearchFragment)
-    fun inject(activity: ArticleFilterActivity)
-    fun inject(activity: ArticleSearchInActivity)
-}
+//@Singleton
+//@Component(modules = [ApplicationModule::class, NetworkModule::class, RestfulModule::class, RoomModule::class])
+//interface ApplicationComponents {
+//    fun inject(activity: MainActivity)
+//    fun inject(activity: NewsFragment)
+//    fun inject(activity: SearchFragment)
+//    fun inject(activity: ArticleFilterActivity)
+//    fun inject(activity: ArticleSearchInActivity)
+//}

@@ -19,7 +19,8 @@ class ApiRepository @Inject constructor() {
 
     @Inject
     lateinit var apiService: ApiService
-    private val disposable = CompositeDisposable()
+    @Inject
+    lateinit var disposable: CompositeDisposable
 
     fun getArticleList(articleType: String, querySearch: String? = null,
                        fromPublishDate: String? = null, toPublishDate: String? = null,

@@ -4,6 +4,8 @@ import com.sokheang.mediaparknews.api.services.ApiService
 import com.sokheang.mediaparknews.utils.Constants
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.reactivex.disposables.CompositeDisposable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -15,10 +17,10 @@ import javax.inject.Singleton
  * Create by Sokheang RET on 19-Aug-22.
  **/
 @Module
+@InstallIn(SingletonComponent::class)
 class RestfulModule {
 
     @Provides
-    @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constants.ApiConstants.BASE_URL)
@@ -29,13 +31,11 @@ class RestfulModule {
     }
 
     @Provides
-    @Singleton
     fun provideApiService(okHttpClient: OkHttpClient): ApiService{
         return provideRetrofit(okHttpClient).create(ApiService::class.java)
     }
 
     @Provides
-    @Singleton
     fun provideCompositeDisposable(): CompositeDisposable {
         return CompositeDisposable()
     }

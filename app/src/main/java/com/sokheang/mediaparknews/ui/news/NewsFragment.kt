@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sokheang.mediaparknews.MainActivity
@@ -14,14 +15,15 @@ import com.sokheang.mediaparknews.databinding.FragmentNewsBinding
 import com.sokheang.mediaparknews.models.ArticleListResponse
 import com.sokheang.mediaparknews.ui.news.adapter.ArticleListAdapter
 import com.sokheang.mediaparknews.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class NewsFragment : Fragment() {
 
     private var _binding: FragmentNewsBinding? = null
 
-    @Inject
-    lateinit var viewModel: NewsViewModel
+    val viewModel: NewsViewModel by viewModels()
 
     private val binding get() = _binding!!
     private lateinit var articleListAdapter: ArticleListAdapter
@@ -30,7 +32,6 @@ class NewsFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if(context is MainActivity){
-            (context.application as MediaparkNewsApp).getApplicationComponent().inject(this)
         }
     }
 

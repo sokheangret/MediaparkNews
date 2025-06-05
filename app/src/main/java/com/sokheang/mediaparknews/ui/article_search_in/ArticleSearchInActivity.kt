@@ -3,15 +3,17 @@ package com.sokheang.mediaparknews.ui.article_search_in
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.sokheang.mediaparknews.app.MediaparkNewsApp
 import com.sokheang.mediaparknews.databinding.ActivityArticleSearchInBinding
 import com.sokheang.mediaparknews.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ArticleSearchInActivity : AppCompatActivity() {
-    @Inject
-    lateinit var viewModel: ArticleSearchInViewModel
+    val viewModel: ArticleSearchInViewModel by viewModels()
 
     private lateinit var binding: ActivityArticleSearchInBinding
     private var searchIn = ""
@@ -22,7 +24,6 @@ class ArticleSearchInActivity : AppCompatActivity() {
         binding = ActivityArticleSearchInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        (application as MediaparkNewsApp).getApplicationComponent().inject(this)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 

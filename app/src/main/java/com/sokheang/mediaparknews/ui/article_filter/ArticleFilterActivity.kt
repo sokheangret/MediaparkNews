@@ -6,28 +6,29 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.sokheang.mediaparknews.app.MediaparkNewsApp
 import com.sokheang.mediaparknews.databinding.ActivityArticleFilterBinding
 import com.sokheang.mediaparknews.ui.article_search_in.ArticleSearchInActivity
 import com.sokheang.mediaparknews.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ArticleFilterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityArticleFilterBinding
 
-    @Inject
-    lateinit var viewModel: ArticleFilterViewModel
+    val viewModel: ArticleFilterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityArticleFilterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        (application as MediaparkNewsApp).getApplicationComponent().inject(this)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel

@@ -2,6 +2,8 @@ package com.sokheang.mediaparknews.di.modules
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,9 +14,9 @@ import javax.inject.Singleton
  * Create by Sokheang RET on 19-Aug-22.
  **/
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
     @Provides
-    @Singleton
     fun provideHttpClient() : OkHttpClient{
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)

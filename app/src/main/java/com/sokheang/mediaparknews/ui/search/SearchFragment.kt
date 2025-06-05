@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sokheang.mediaparknews.MainActivity
@@ -22,15 +23,15 @@ import com.sokheang.mediaparknews.ui.news.adapter.ArticleListAdapter
 import com.sokheang.mediaparknews.ui.search.adapter.SearchHistoryAdapter
 import com.sokheang.mediaparknews.utils.Constants
 import com.sokheang.mediaparknews.utils.views.BottomSheetSortBy
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
 private var _binding: FragmentSearchBinding? = null
 
-    @Inject
-    lateinit var viewModel: SearchViewModel
+    val viewModel: SearchViewModel by viewModels()
 
     private val binding get() = _binding!!
     private lateinit var articleListAdapter: ArticleListAdapter
@@ -48,7 +49,6 @@ private var _binding: FragmentSearchBinding? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if(context is MainActivity){
-            (context.application as MediaparkNewsApp).getApplicationComponent().inject(this)
         }
     }
 
